@@ -17,7 +17,7 @@ public class CSVWritter {
 
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
-
+			
 			// Escribo la primer linea del archivo
 			String contenidoLinea1 = "Usuario1,Tiempo1";
 			bw.write(contenidoLinea1);

@@ -3,10 +3,13 @@ package ProgramacionIII.tpe;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import tpe.ColeccionLibros;
+import tpe.Genero;
 import tpe.Indice;
+import tpe.Indice2;
 import tpe.Libro;
 
 public class CSVReader {
@@ -18,7 +21,8 @@ public class CSVReader {
         boolean firstRegistro = true;
         
         ColeccionLibros coleccion = new ColeccionLibros();
-        Indice index = new Indice();
+        //Indice index = new Indice();
+        Indice2 index = new Indice2();
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 
@@ -39,13 +43,28 @@ public class CSVReader {
                 	// ------- CREAR INDICE ------- 
                 	String[] g = libro.getGeneros();
                 	for(int i = 0; i < g.length; i++) {
-                		index.insert(g[i], libro);
-                	}
+                		//index.insert(g[i], libro);
+                		index.addGenero(g[i], libro);
+                	}         	
+                	
+                	
                 }
                 firstRegistro = false;               
             }
             
-            LinkedList<Libro> test = index.buscar("fotografia");
+            // ------ OBTENER LISTA LIBROS PERTENECIENTE A GENEROS -------            
+            //LinkedList<Libro> librosXgenero = index.buscar("moda");
+            ArrayList<Genero> listaGeneros = index.getListaGeneros();
+    		for(int j = 0; j < listaGeneros.size(); j++) {
+    			System.out.println(listaGeneros.get(j).getNombreGenero());
+    		}
+    		
+    		int x = index.buscarGenero("arte");
+    		ArrayList<Libro> l = listaGeneros.get(x).getLibros();
+    		System.out.println("\n\n");
+    		for(int k = 0; k < l.size(); k++) {
+    			System.out.println(l.get(k).getTitulo());
+    		}
             
             
         } catch (IOException e) {
