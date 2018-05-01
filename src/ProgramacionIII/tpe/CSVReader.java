@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import ProgramacionIII.util.Timer;
 import tpe.ColeccionLibros;
 import tpe.Indice;
 import tpe.Libro;
@@ -14,7 +13,7 @@ import tpe.Libro;
 public class CSVReader {
 
     public static void main(String[] args) {
-        String csvFile = "dataset4.csv";
+        String csvFile = "dataset1.csv";
         String line = "";
         String cvsSplitBy = ",";
         boolean firstRegistro = true;
@@ -22,9 +21,7 @@ public class CSVReader {
         ColeccionLibros coleccion = new ColeccionLibros();
         Indice index = new Indice();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-        	Timer t = new Timer();
-        	double timerResult;
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {        	
             while ((line = br.readLine()) != null) {
 
                 String[] items = line.split(cvsSplitBy);
@@ -34,7 +31,6 @@ public class CSVReader {
                 
                 // ------- CREAR LIBRO -------
                 if(!firstRegistro) {
-                	t.start();
                 	Libro libro = new Libro(items[0], items[1], items[2], generos);
                 	 
                 	// ------- Aï¿½ADIR LIBRO A LISTA DE LIBROS -------
@@ -48,20 +44,19 @@ public class CSVReader {
                 }
                 firstRegistro = false;
             }
-            System.out.println(t.stop());
             // ------ OBTENER LISTA LIBROS PERTENECIENTE A GENEROS -------
-            /*
             System.out.println("Ingrese la categoria que desea buscar libros: ");
 	    	Scanner s = new Scanner(System.in);
 	    	String cat = s.nextLine();
-	    	s.close();	    	
+	    	s.close();
 	    	
 	    	LinkedList<Libro> librosXgenero = index.buscar(cat);
+	    	
 	    	if(librosXgenero != null) {
 	    		CSVWritter.writeFile(librosXgenero);
 	    	}else {
 	    		System.out.println("Lo sentimos, el género ingresado no existe. El programa se cerrará.");
-	    	}*/
+	    	}
 
         } catch (IOException e) {
             e.printStackTrace();
