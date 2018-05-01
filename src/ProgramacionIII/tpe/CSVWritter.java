@@ -4,13 +4,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import tpe.Libro;
 
 public class CSVWritter {
 	
-	public static void writeFile(ArrayList<Libro> Libros) {
+	public static void writeFile(LinkedList<Libro> Libros) {
 		
 		BufferedWriter bw = null;
 		try {
