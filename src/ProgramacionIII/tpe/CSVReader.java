@@ -37,7 +37,7 @@ public class CSVReader {
                 if(!firstRegistro) {                	
                 	Libro libro = new Libro(items[0], items[1], items[2], generos);
                 	 
-                	// ------- AÑADIR LIBRO A LISTA DE LIBROS -------
+                	// ------- Aï¿½ADIR LIBRO A LISTA DE LIBROS -------
                 	coleccion.addLibro(libro);
                 	 
                 	// ------- CREAR INDICE ------- 
@@ -45,7 +45,7 @@ public class CSVReader {
                 	for(int i = 0; i < g.length; i++) {
                 		//index.insert(g[i], libro);
                 		index.addGenero(g[i], libro);
-                	}         	
+                	}         
                 	
                 	
                 }
@@ -55,18 +55,14 @@ public class CSVReader {
             // ------ OBTENER LISTA LIBROS PERTENECIENTE A GENEROS -------            
             //LinkedList<Libro> librosXgenero = index.buscar("moda");
             ArrayList<Genero> listaGeneros = index.getListaGeneros();
-    		for(int j = 0; j < listaGeneros.size(); j++) {
-    			System.out.println(listaGeneros.get(j).getNombreGenero());
-    		}
-    		
-    		int x = index.buscarGenero("arte");
-    		ArrayList<Libro> l = listaGeneros.get(x).getLibros();
-    		System.out.println("\n\n");
-    		for(int k = 0; k < l.size(); k++) {
-    			System.out.println(l.get(k).getTitulo());
-    		}
-            
-            
+	    		for(int j = 0; j < listaGeneros.size(); j++) {
+	    			System.out.println(listaGeneros.get(j).getNombreGenero());
+	    		}
+	    		
+	    		int x = index.buscarGenero("cine");
+	    		ArrayList<Libro> l = listaGeneros.get(x).getLibros();
+	    		CSVWritter.writeFile(l);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
