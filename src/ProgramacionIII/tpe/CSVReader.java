@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import tpe.ColeccionLibros;
 import tpe.Genero;
@@ -59,7 +60,12 @@ public class CSVReader {
 	    			System.out.println(listaGeneros.get(j).getNombreGenero());
 	    		}
 	    		
-	    		int x = index.buscarGenero("cine");
+	    		
+	    		System.out.println("Ingrese la categoria que desea buscar libros: ");
+	    		Scanner s = new Scanner(System.in);
+	    		String cat = s.nextLine();
+	    		
+	    		int x = index.buscarGenero(cat);
 	    		ArrayList<Libro> l = listaGeneros.get(x).getLibros();
 	    		CSVWritter.writeFile(l);
 
