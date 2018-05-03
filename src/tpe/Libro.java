@@ -31,7 +31,5 @@ public class Libro {
 	
 	public String[] getGeneros(){
 		return generos;
-	}
-	
-	
+	}	
 }

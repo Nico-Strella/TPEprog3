@@ -69,6 +69,9 @@ public class Indice{
 	public LinkedList<Libro> buscar(String genero){
         LinkedList<Libro> listaLibros = null;
         if (!isEmpty()) {
+        	//cuento por cuantos nodos pase antes de encontrar el genero deseado
+        	Contador.aumentarContador();;
+        	
             if (genero.equals(root.nombreGenero)) {
             	return root.indiceLibros;
             }

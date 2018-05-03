@@ -6,14 +6,16 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import ProgramacionIII.util.Timer;
 import tpe.ColeccionLibros;
+import tpe.Contador;
 import tpe.Indice;
 import tpe.Libro;
 
 public class CSVReader {
 
     public static void main(String[] args) {
-        String csvFile = "dataset1.csv";
+        String csvFile = "dataset4.csv";
         String line = "";
         String cvsSplitBy = ",";
         boolean firstRegistro = true;
@@ -21,7 +23,9 @@ public class CSVReader {
         ColeccionLibros coleccion = new ColeccionLibros();
         Indice index = new Indice();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {        	
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {   
+        	Timer t = new Timer();
+        	t.start();
             while ((line = br.readLine()) != null) {
 
                 String[] items = line.split(cvsSplitBy);
@@ -44,6 +48,8 @@ public class CSVReader {
                 }
                 firstRegistro = false;
             }
+            
+            System.out.println("Se tardo "+t.stop()+" milisegundos en generar las estructuras.\n");
             // ------ OBTENER LISTA LIBROS PERTENECIENTE A GENEROS -------
             System.out.println("Ingrese la categoria que desea buscar libros: ");
 	    	Scanner s = new Scanner(System.in);
@@ -52,6 +58,10 @@ public class CSVReader {
 	    	
 	    	LinkedList<Libro> librosXgenero = index.buscar(cat);
 	    	
+	    	// ------- TEST NODOS VISITADOS -------
+	    	System.out.println("\nSe visitaron "+Contador.getContador()+" nodos antes de encontrar el genero buscado.");
+	    	Contador.resetContador();
+	    	// ------- FIN TEST -------
 	    	if(librosXgenero != null) {
 	    		CSVWritter.writeFile(librosXgenero);
 	    	}else {
@@ -61,8 +71,5 @@ public class CSVReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        
-    }
-    
+    }    
 }
