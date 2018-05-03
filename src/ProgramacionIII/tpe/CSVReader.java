@@ -15,7 +15,7 @@ import tpe.Libro;
 public class CSVReader {
 
     public static void main(String[] args) {
-        String csvFile = "dataset4.csv";
+        String csvFile = "dataset1.csv";
         String line = "";
         String cvsSplitBy = ",";
         boolean firstRegistro = true;
@@ -48,6 +48,10 @@ public class CSVReader {
                 }
                 firstRegistro = false;
             }
+            //------- TEST CANTIDAD DE ITERACIONES TOTALES EN EL INSERT -------
+            System.out.println("Se iteraron "+Contador.getContador()+" veces al generar el indice.\n");
+            Contador.resetContador();
+            //------- FIN TEST -------
             
             System.out.println("Se tardo "+t.stop()+" milisegundos en generar las estructuras.\n");
             // ------ OBTENER LISTA LIBROS PERTENECIENTE A GENEROS -------

@@ -46,6 +46,7 @@ public class Indice{
 	}
 	
 	public void insert(String genero, Libro libro) {
+		Contador.aumentarContador();
 		if (isEmpty()) {
 			Genero nuevo = new Genero();
             nuevo.nombreGenero = genero;
