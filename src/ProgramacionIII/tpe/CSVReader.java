@@ -3,7 +3,10 @@ package ProgramacionIII.tpe;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Scanner;
 
 import ProgramacionIII.util.Timer;
@@ -11,66 +14,49 @@ import tpe.ColeccionLibros;
 import tpe.Contador;
 import tpe.Indice;
 import tpe.Libro;
+import tpe2.GrafoGeneros;
+import tpe2.NodoCamino;
 
 public class CSVReader {
 
     public static void main(String[] args) {
-        String csvFile = "dataset1.csv";
+        String csvFile = "dataset5.csv";
         String line = "";
         String cvsSplitBy = ",";
-        boolean firstRegistro = true;
+        HashMap<String,Integer> Hash = new HashMap<>();
+        boolean isFirst = true;
         
-        ColeccionLibros coleccion = new ColeccionLibros();
-        Indice index = new Indice();
+        GrafoGeneros Grafo = new GrafoGeneros(40); 
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {   
-        	Timer t = new Timer();
-        	t.start();
+	        	Timer t = new Timer();
+	        	t.start();
             while ((line = br.readLine()) != null) {
-
-                String[] items = line.split(cvsSplitBy);
-       
-                String[] generos = items[3].split(" ");
-                
-                
-                // ------- CREAR LIBRO -------
-                if(!firstRegistro) {
-                	Libro libro = new Libro(items[0], items[1], items[2], generos);
-                	 
-                	// ------- Aï¿½ADIR LIBRO A LISTA DE LIBROS -------
-                	coleccion.addLibro(libro);
-                	 
-                	// ------- CREAR INDICE ------- 
-                	String[] g = libro.getGeneros();
-                	for(int i = 0; i < g.length; i++) {
-                		index.insert(g[i], libro);
-                	}
-                }
-                firstRegistro = false;
+	            	if (!isFirst) {
+	            		 String[] items = line.split(cvsSplitBy);
+	                     
+	                 	int size = items.length;
+	                 	Hash.put(items[0],1);
+	                 	
+	                 	// ------- AGREGO LA BUSQUEDA AL GRAFO -------
+	                 for(int i = 0; i<size-1;i++) {
+	                 		Grafo.agregar(items[i], items[i+1], 1);
+	                 		
+	                 }  
+	            	}
+	            	isFirst = false;
             }
-            //------- TEST CANTIDAD DE ITERACIONES TOTALES EN EL INSERT -------
-            System.out.println("Se iteraron "+Contador.getContador()+" veces al generar el indice.\n");
-            Contador.resetContador();
-            //------- FIN TEST -------
-            
-            System.out.println("Se tardo "+t.stop()+" milisegundos en generar las estructuras.\n");
-            // ------ OBTENER LISTA LIBROS PERTENECIENTE A GENEROS -------
-            System.out.println("Ingrese la categoria que desea buscar libros: ");
-	    	Scanner s = new Scanner(System.in);
-	    	String cat = s.nextLine();
-	    	s.close();
-	    	
-	    	LinkedList<Libro> librosXgenero = index.buscar(cat);
-	    	
-	    	// ------- TEST NODOS VISITADOS -------
-	    	System.out.println("\nSe visitaron "+Contador.getContador()+" nodos antes de encontrar el genero buscado.");
-	    	Contador.resetContador();
-	    	// ------- FIN TEST -------
-	    	if(librosXgenero != null) {
-	    		CSVWritter.writeFile(librosXgenero);
-	    	}else {
-	    		System.out.println("Lo sentimos, el género ingresado no existe. El programa se cerrará.");
-	    	}
+            System.out.println("1. Ingrese el genero que desea ver el historial de busqueda: ");
+         	Scanner s = new Scanner(System.in);
+         	String cat = s.nextLine();
+         	
+         	System.out.println("1. Ingrese la cantidad : ");
+
+         	Integer cant = s.nextInt();
+         	s.close();
+            Grafo.getCamino(cat,cant);
+	        
+		   
 
         } catch (IOException e) {
             e.printStackTrace();
