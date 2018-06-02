@@ -14,7 +14,7 @@ import tpe2.GrafoGeneros;
 public class CSVReader {
 
     public static void main(String[] args) {
-        String csvFile = "dataset1.csv";
+        String csvFile = "dataset6.csv";
         String line = "";
         String cvsSplitBy = ",";
         HashMap<String,Integer> Hash = new HashMap<>();
@@ -58,9 +58,9 @@ public class CSVReader {
             	System.out.println(str);
             }
             
-            //no anda, cualquier verdura!! xD
-            Set<String> conCiclo = Grafo.dfsCiclo();
-            
+           //Ciclos
+            GrafoGeneros GrafoCiclo = Grafo.DFS_Ciclo(cat);
+            System.out.println("Hola");
             
 		   
 

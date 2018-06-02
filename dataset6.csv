@@ -1,4 +1,5 @@
 Generos,,,,,
-viajes,informática,tecnología,periodismo,filosofía,psicología
-economía,religión,filosofía,ciencia,,
-informática,arte,,,,
+viajes,informática,,,,
+economía,arte,,,,
+informática,terror,,,,
+arte,viajes,economía,,,
