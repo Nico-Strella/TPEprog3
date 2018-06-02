@@ -11,9 +11,11 @@ public class GrafoGeneros {
 
 	private final Integer N; //Cantidad de nodos
 	private Integer lastValue; //valor para asignarle en la matriz a la palabra del genero
-	private HashMap<String, Integer>[] lista; // Creacion de la matriz
+
+	private ArrayList<HashMap<String, Integer>> lista; // Creacion de la matriz
 	private HashMap<String, Integer> myMap;  // Guardo el indice en la matriz con el nombre
 	private ArrayList<String> Indice; //Guardo el orden en que se guardan las categorias
+
 	private static final String noVisitado  = "Blanco";
 	private static final String Visitado = "Amarillo";
 	private static final String VisitadoPlus = "Negro";
@@ -22,29 +24,31 @@ public class GrafoGeneros {
 	public GrafoGeneros(Integer n) {
 		this.N = n;
 		this.lastValue = 0;
-		lista = new HashMap[N];
+		lista = new ArrayList<>();
 		this.Indice = new ArrayList<String>();
 		this.myMap = new HashMap<String, Integer>();
-		for (int i = 0; i < N; i++) {
-			lista[i] = new HashMap<>();
-		}
 	}
 
 	public void agregar(String c1, String c2, Integer peso) {
-		Integer genero1 = this.myMap.get(c1);
-		Integer genero2 = this.myMap.get(c2);
-		if (genero1 == null) {
-			genero1 = this.getNewValue(c1);
+
+		Integer desdeGenero = this.myMap.get(c1);
+		Integer hastaGenero = this.myMap.get(c2);
+
+		if (desdeGenero == null) {
+			desdeGenero = this.getNewValue(c1);
+			lista.add(desdeGenero,new HashMap<>());
 		}
-		if (genero2 == null) {
-			this.getNewValue(c2);
+		if (hastaGenero == null) {
+			hastaGenero = this.getNewValue(c2);
+			lista.add(hastaGenero,new HashMap<>());
 		}
 
-		Integer valor = lista[genero1].get(c2);
+		Integer valor = lista.get(desdeGenero).get(c2);
+
 		if (valor == null) {
-			lista[genero1].put(c2, peso);
+			lista.get(desdeGenero).put(c2, peso);
 		} else {
-			lista[genero1].put(c2, valor + 1);
+			lista.get(desdeGenero).put(c2, valor + 1);
 		}
 
 	}
@@ -62,7 +66,7 @@ public class GrafoGeneros {
 		ArrayList<NodoCamino> result = new ArrayList<>();
 		int indice = myMap.get(cat);
 
-		for (Map.Entry e : lista[indice].entrySet()) {
+		for (Map.Entry e : lista.get(indice).entrySet()) {
 			NodoCamino nodo = new NodoCamino((String) e.getKey(), (Integer) e.getValue());
 			hijos.add(nodo);
 		}
@@ -92,7 +96,7 @@ public class GrafoGeneros {
 	private void dfs_visitar(int v, boolean visitado[], Set<String> desc) {
 		visitado[v] = true;
 
-		for (Map.Entry e : lista[v].entrySet()) {
+		for (Map.Entry e : lista.get(v).entrySet()) {
 			Integer index = myMap.get(e.getKey());
 			if (visitado[index] == false) {
 				dfs_visitar(index, visitado, desc);
@@ -101,7 +105,7 @@ public class GrafoGeneros {
 		desc.add(Indice.get(v));
 	}
 
-	public void imprimirArrayList(ArrayList<NodoCamino> Arr) {
+	private void imprimirArrayList(ArrayList<NodoCamino> Arr) {
 		int size = Arr.size();
 		for (Integer i = 0; i < size; i++) {
 			System.out.print(Arr.get(i).getGenero() + " " + Arr.get(i).getCantBusquedas() + " / ");
@@ -129,7 +133,7 @@ public class GrafoGeneros {
 
 		int nodo = myMap.get(cat);
 		boolean hayCiclo = false;
-		for (Map.Entry e : lista[nodo].entrySet()) {
+		for (Map.Entry e : lista.get(nodo).entrySet()) {
 			if (!hayCiclo) {
 				Integer adyacente = myMap.get(e.getKey());
 				if (estadoNodo[adyacente] == this.noVisitado) {
@@ -161,7 +165,7 @@ public class GrafoGeneros {
 	private boolean hayCiclo(int nodo, Integer[] padre, String[] estadoNodo) {
 		estadoNodo[nodo] = this.Visitado;
 		boolean hayCiclo = false;
-		for (Map.Entry e : lista[nodo].entrySet()) {
+		for (Map.Entry e : lista.get(nodo).entrySet()) {
 			Integer adyacente = myMap.get(e.getKey());
 			if (!hayCiclo) {
 				if (estadoNodo[adyacente] == this.noVisitado) {
@@ -178,4 +182,7 @@ public class GrafoGeneros {
 		return hayCiclo;
 	}
 
+	public void imprimirCamino() {
+
+	}
 }

@@ -60,7 +60,7 @@ public class CSVReader {
             
            //Ciclos
             GrafoGeneros GrafoCiclo = Grafo.DFS_Ciclo(cat);
-            System.out.println("Hola");
+            Grafo.imprimirCamino();
             
 		   
 
