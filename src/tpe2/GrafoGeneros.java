@@ -1,5 +1,7 @@
 package tpe2;
 
+import tpe.Contador;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,7 +14,7 @@ public class GrafoGeneros {
 	private final Integer N; //Cantidad de nodos
 	private Integer lastValue; //valor para asignarle en la matriz a la palabra del genero
 
-	private ArrayList<HashMap<String, Integer>> lista; // Creacion de la matriz
+	private ArrayList<HashMap<String, Integer>> lista;
 	private HashMap<String, Integer> myMap;  // Guardo el indice en la matriz con el nombre
 	private ArrayList<String> Indice; //Guardo el orden en que se guardan las categorias
 
@@ -80,20 +82,22 @@ public class GrafoGeneros {
 		for (int i = 0; i < cantCaminosPedidos; i++) {
 			result.add(hijos.get(i));
 		}
-		this.imprimirArrayList(result);
+		//this.imprimirArrayList(result);
 		return result;
 	}
 
 	public Set<String> dfs(String cat) {
 		boolean[] visitado = new boolean[N];
 		Set<String> descendientes = new HashSet<>();
-
+		System.out.println("El contador tiene un valor inicial de: "+Contador.getContador());
+		Contador.resetContador();
 		dfs_visitar(myMap.get(cat), visitado, descendientes);
 
 		return descendientes;
 	}
 
 	private void dfs_visitar(int v, boolean visitado[], Set<String> desc) {
+		Contador.aumentarContador();
 		visitado[v] = true;
 
 		for (Map.Entry e : lista.get(v).entrySet()) {
@@ -171,7 +175,7 @@ public class GrafoGeneros {
 				if (estadoNodo[adyacente] == this.noVisitado) {
 					hayCiclo = this.hayCiclo(adyacente, padre, estadoNodo);
 				} else {
-					if (estadoNodo[nodo] == this.Visitado) {
+					if (estadoNodo[nodo] == this.VisitadoPlus) {
 						hayCiclo = true;
 					}
 				}
